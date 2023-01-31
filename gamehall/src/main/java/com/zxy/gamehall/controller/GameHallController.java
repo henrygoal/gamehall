@@ -3,7 +3,7 @@
  * @Author: luyh
  * @Date: 2023-01-30 17:26:00
  * @LastEditors: luyh
- * @LastEditTime: 2023-01-31 17:01:39
+ * @LastEditTime: 2023-01-31 19:11:03
  */
 package com.zxy.gamehall.controller;
 
@@ -43,15 +43,36 @@ public class GameHallController {
     }
 
     @GetMapping("/create/{name}")
-    public void create(@PathVariable String name) {
+    public Mono<Integer> create(@PathVariable String name) {
 
         GameHall gameHall = new GameHall();
         gameHall.setName(name);
         gameHallMapper.insert(gameHall);
+
+        return Mono.fromSupplier(()->1);
     }
 
-    @GetMapping("/update/{id}")
-    public void update(@PathVariable String id) {
+    @GetMapping("/update/{id}/{name}")
+    public Mono<Integer> update(@PathVariable String id,@PathVariable String name){
+
+         GameHall gameHall = gameHallMapper.selectById(Long.parseLong(id));
+        if (gameHall != null) {
+
+            gameHall.setName(name);
+            gameHallMapper.updateById(gameHall);
+        }
+        return Mono.fromSupplier(() -> 1);
+    }
+
+    @GetMapping("/delete/{id}")
+    public Mono<Integer> delete(@PathVariable String id) {
+
+        gameHallMapper.deleteById(Long.parseLong(id));
+        return Mono.fromSupplier(() -> 1);
+    }
+
+    @GetMapping("/updateTime/{id}")
+    public Mono<Integer> updateTime(@PathVariable String id) {
 
         GameHall gameHall = gameHallMapper.selectById(Long.parseLong(id));
         if (gameHall != null) {
@@ -83,5 +104,7 @@ public class GameHallController {
             }
             gameHallMapper.updateById(gameHall);
         }
+
+        return Mono.fromSupplier(() -> 1);
     }
 }
