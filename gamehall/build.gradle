@@ -3,7 +3,11 @@ plugins {
 	id 'org.springframework.boot' version '3.0.2'
 	id 'io.spring.dependency-management' version '1.1.0'
     id "io.freefair.lombok" version "6.6.1"
+    id 'application'
 }
+
+
+mainClassName = 'com.zxy.gamehall.GamehallApplication'
 
 group = 'com.zxy'
 version = '0.0.1-SNAPSHOT'
@@ -18,11 +22,24 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.xerial:sqlite-jdbc:3.40.0.0'
     implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.3.1'
+    implementation 'com.alibaba:easyexcel:3.2.0'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.6'
     
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
     
 }
+
+// jar {
+//     archiveBaseName = 'gamehall'
+//     archiveVersion = '0.1'
+// }
+
+bootJar {
+    baseName = 'game-hall'
+    version =  '0.1'
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()
